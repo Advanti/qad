@@ -8,6 +8,7 @@ This project represents all code required to shape QAD data into a usable and co
 
 ```sql
 CREATE DATABASE QAIDataLayer
+;
 ```
 
 2. Deploy the views into your brand new database.

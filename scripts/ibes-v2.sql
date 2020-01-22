@@ -1,12 +1,12 @@
-use OpenAristos
+use QAIDataLayer
 ;
 go
 
-drop view if exists dbo.IBESV2_TREInfo_Enriched
+drop view if exists dbo.ibesv2_instrument_reference
 ;
 go
 
-create view dbo.IBESV2_TREInfo_Enriched
+create view dbo.ibesv2_instrument_reference
 as
 /*
 Purpose:
@@ -21,7 +21,8 @@ TREInfo.*,
 upper(default_currency.Description) as DefCurrCode,
 upper(default_per_share_currency.Description) as DefPerCurrCode,
 upper(default_price_target_currency.Description) as DefTPCurrCode,
-upper(expected_reporting_currency.Description) as ExpCurrCode
+upper(expected_reporting_currency.Description) as ExpCurrCode,
+upper(measure.Description) as PrefMeasureCode
 from qai.dbo.TREInfo
 inner join qai.dbo.TRECode as default_currency
 on TREInfo.DefCurrPermID = default_currency.Code
@@ -35,4 +36,7 @@ and default_price_target_currency.CodeType = 7
 inner join qai.dbo.TRECode as expected_reporting_currency
 on TREInfo.ExpCurrPermID = expected_reporting_currency.Code
 and expected_reporting_currency.CodeType = 7
+inner join qai.dbo.TRECode as measure
+on TREInfo.PrefMeasure = measure.Code
+and measure.CodeType = 4
 ;
